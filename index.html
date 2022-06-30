@@ -5,15 +5,22 @@
     <script src="https://cdn.glitch.global/54432690-cd55-43ec-b376-76a483be1314/aframe-stereo-component.min.js.txt?v=1656621414518"></script>
   </head>
   <script>
-    AFRAME.registerComponent('sbs-stereoscopic-viewer', {
-      var sceneSbsSV = document.querySelector('a-scene');
-
+    AFRAME.registerComponent("sbs-stereoscopic-viewer", {
+      init: function () {
+        var cameraMain = document.querySelector("a-scene").querySelector("#mainCamera");
+        var entityLeftView = cameraMain.querySelector("#leftView");
+        var entityRightView = cameraMain.querySelector("#leftView");
+        document.getElementById("imgUrl")
+        entityLeftView.setAttribute("geometry", "width", "1");
+        entityRightView.setAttribute("geometry", "width", "1");
+      }
     });
   </script>
   <body>
     <a-scene sbs-stereoscopic-viewer>
-      <a-entity camera look-controls wasd-controls position="0 1.6 0">
+      <a-entity id="mainCamera" camera look-controls wasd-controls position="0 1.6 0">
         <a-entity
+          id="leftView"
           geometry="primitive:plane; width:0.7919; height:1"
           material="shader:flat; repeat: 0.5 1; offset:0; fog:false; src:https://dms-cf-10.dimu.org/image/022wZW33q9z9?filename=TEKA0024234.jpg&dimension=max"
           position="0 0 -2"
@@ -21,6 +28,7 @@
           stereo="eye:left"
         ></a-entity>
         <a-entity
+          id="rightView"
           geometry="primitive:plane; width:0.7919; height:1"
           material="shader:flat; repeat: 0.5 1; offset:0.5; fog:false; src:https://dms-cf-10.dimu.org/image/022wZW33q9z9?filename=TEKA0024234.jpg&dimension=max"
           position="0 0 -2"
