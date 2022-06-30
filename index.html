@@ -7,7 +7,7 @@
   <script>
     AFRAME.registerComponent('sbs-stereoscopic-viewer', {
       var sceneSbsSV = document.querySelector('a-scene');
-      
+
     });
   </script>
   <body>
@@ -37,5 +37,13 @@
       ></a-plane>
       <a-sky color="#1F1F1F"></a-sky>
     </a-scene>
+    <div style="position: fixed; top: 10px; left: 10px; width: 50%">
+      <input
+        type="text"
+        id="imgUrl"
+        placeholder="Paste SBS stereosocpic 3D image URL here"
+        style="width: 100%"
+      />
+    </div>
   </body>
 </html>
