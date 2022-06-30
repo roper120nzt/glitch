@@ -43,11 +43,12 @@
                 inputImgUrl.value
               );
               if (document.getElementById("followHead").checked) {
-                followingCamera.setAttribute("camera", "active", false);
-                fixedCamera.setAttribute("camera", "active", true);
-              } else {
                 followingCamera.setAttribute("camera", "active", true);
                 fixedCamera.setAttribute("camera", "active", false);
+              } else {
+                followingCamera.setAttribute("camera", "active", false);
+                fixedCamera.setAttribute("camera", "active", true);
+                followingCamera.setAttribute("position", "0 1.6 0");
               }
             });
           });
@@ -56,13 +57,14 @@
   </script>
   <body>
     <a-scene sbs-stereoscopic-viewer>
-      <a-entity id="fixedCamera" camera look-controls position="0 1.6 0" />
       <a-entity
-        id="followingCamera"
+        id="fixedCamera"
         camera="active:false"
         look-controls
+        wasd-controls
         position="0 1.6 0"
-      >
+      ></a-entity>
+      <a-entity id="followingCamera" camera look-controls position="0 1.6 0">
         <a-entity
           id="leftView"
           geometry="primitive:plane; width:2; height:2"
@@ -96,7 +98,7 @@
         placeholder="Paste URL of SBS stereosocpic 3D image here."
         style="width: 100%"
       />
-      <label for="imgHeight" style="color: white">Image height:</label>
+      <label for="imgHeight" style="color: white">Image size:</label>
       <input
         id="imgHeight"
         type="number"
