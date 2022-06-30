@@ -11,18 +11,24 @@
           .querySelector("a-scene")
           .querySelector("#mainCamera");
         var entityLeftView = cameraMain.querySelector("#leftView");
-        var entityRightView = cameraMain.querySelector("#leftView");
+        var entityRightView = cameraMain.querySelector("#rightView");
         var inputImgUrl = document.getElementById("imgUrl");
         var imgPreview = document.getElementById("preview");
         inputImgUrl.addEventListener("change", function () {
           imgPreview.src = inputImgUrl.value;
           imgPreview.addEventListener("load", function () {
-            alert(imgPreview.naturalWidth);
-            imgPreview.style.width = imgPreview.naturalWidth *  / imgPreview.naturalHeight;
-            entityLeftView.setAttribute("geometry", "width", "1");
-            entityRightView.setAttribute("geometry", "width", "1");
-            entityLeftView.setAttribute("material", "src", this.value);
-            entityRightView.setAttribute("material", "src", this.value);
+            imgPreview.style.width =
+              (imgPreview.style.height * imgPreview.naturalWidth) /
+              imgPreview.naturalHeight;
+            var viewWidth =
+              (entityLeftView.getAttribute("geometry").height *
+                imgPreview.naturalWidth) /
+              imgPreview.naturalHeight /
+              2.0;
+            entityLeftView.setAttribute("geometry", "width", viewWidth);
+            entityRightView.setAttribute("geometry", "width", viewWidth);
+            entityLeftView.setAttribute("material", "src", inputImgUrl.value);
+            entityRightView.setAttribute("material", "src", inputImgUrl.value);
           });
         });
       },
@@ -39,16 +45,16 @@
       >
         <a-entity
           id="leftView"
-          geometry="primitive:plane; width:0.7919; height:1"
-          material="shader:flat; repeat: 0.5 1; offset:0; fog:false; src:https://dms-cf-10.dimu.org/image/022wZW33q9z9?filename=TEKA0024234.jpg&dimension=max"
+          geometry="primitive:plane; width:2; height:2"
+          material="shader:flat; repeat: 0.5 1; offset:0; fog:false"
           position="0 0 -2"
           rotation="0 0 0"
           stereo="eye:left"
         ></a-entity>
         <a-entity
           id="rightView"
-          geometry="primitive:plane; width:0.7919; height:1"
-          material="shader:flat; repeat: 0.5 1; offset:0.5; fog:false; src:https://dms-cf-10.dimu.org/image/022wZW33q9z9?filename=TEKA0024234.jpg&dimension=max"
+          geometry="primitive:plane; width:2; height:2"
+          material="shader:flat; repeat: 0.5 1; offset:0.5; fog:false"
           position="0 0 -2"
           rotation="0 0 0"
           stereo="eye:right"
@@ -61,17 +67,17 @@
         height="4"
         color="#A0A0A0"
       ></a-plane>
-      <a-sky color="#1F1F1F"></a-sky>
+      <a-sky color="#000000"></a-sky>
     </a-scene>
     <div style="position: fixed; top: 10px; left: 10px; width: 50%">
       <input
         type="text"
         id="imgUrl"
-        placeholder="Paste URL of SBS stereosocpic 3D image here and press enter."
+        placeholder="Paste URL of SBS stereosocpic 3D image here."
         style="width: 100%"
       />
       <br /><br />
-      <img id="preview" style="width: 200px" />
+      <img id="preview" style="height: 200px" />
     </div>
   </body>
 </html>
