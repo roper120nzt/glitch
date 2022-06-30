@@ -12,11 +12,11 @@
         var followingCamera = sceneMain.querySelector("#followingCamera");
         var entityLeftView = followingCamera.querySelector("#leftView");
         var entityRightView = followingCamera.querySelector("#rightView");
-        var inputImgUrl = document.getElementById("imgUrl");
         var imgPreview = document.getElementById("preview");
         document
           .getElementById("loadImage")
           .addEventListener("click", function () {
+            var inputImgUrl = document.getElementById("imgUrl");
             imgPreview.src = inputImgUrl.value;
             imgPreview.addEventListener("load", function () {
               imgPreview.style.width =
@@ -28,10 +28,14 @@
                 imgPreview.naturalHeight /
                 2.0;
               var viewHeight = document.getElementById("imgHeight").value;
+              var viewPosition =
+                "0 0 " + -1 * document.getElementById("imgDist").value;
               entityLeftView.setAttribute("geometry", "width", viewWidth);
               entityRightView.setAttribute("geometry", "width", viewWidth);
               entityLeftView.setAttribute("geometry", "height", viewHeight);
               entityRightView.setAttribute("geometry", "height", viewHeight);
+              entityLeftView.setAttribute("position", viewPosition);
+              entityRightView.setAttribute("position", viewPosition);
               entityLeftView.setAttribute("material", "src", inputImgUrl.value);
               entityRightView.setAttribute(
                 "material",
@@ -39,11 +43,11 @@
                 inputImgUrl.value
               );
               if (document.getElementById("followHead").checked) {
-                followongCamera.setAttribute("active", "false");
-                fixedCamera.setAttribute("active", "true");
+                followingCamera.setAttribute("camera", "active", false);
+                fixedCamera.setAttribute("camera", "active", true);
               } else {
-                followongCamera.setAttribute("active", "true");
-                fixedCamera.setAttribute("active", "false");
+                followingCamera.setAttribute("camera", "active", true);
+                fixedCamera.setAttribute("camera", "active", false);
               }
             });
           });
@@ -52,14 +56,13 @@
   </script>
   <body>
     <a-scene sbs-stereoscopic-viewer>
+      <a-entity id="fixedCamera" camera look-controls position="0 1.6 0" />
       <a-entity
-        id="fixedCamera"
-        camera
+        id="followingCamera"
+        camera="active:false"
         look-controls
         position="0 1.6 0"
-        active="false"
-      />
-      <a-entity id="followingCamera" camera look-controls position="0 1.6 0">
+      >
         <a-entity
           id="leftView"
           geometry="primitive:plane; width:2; height:2"
@@ -99,7 +102,7 @@
         type="number"
         step="0.1"
         value="2.0"
-        style="width: 10%"
+        style="width: 7.5%"
       />
       &nbsp;
       <label for="imgDist" style="color: white">Image distance:</label>
@@ -108,7 +111,7 @@
         type="number"
         step="0.1"
         value="2.0"
-        style="width: 10%"
+        style="width: 7.5%"
       />
       &nbsp;
       <label for="followHead" style="color: white">Follow head:</label>
