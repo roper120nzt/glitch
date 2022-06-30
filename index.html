@@ -15,13 +15,15 @@
         var inputImgUrl = document.getElementById("imgUrl");
         var imgPreview = document.getElementById("preview");
         inputImgUrl.addEventListener("change", function () {
-          
-          imgPreview.src = this.value;
-          imgPreview.style.width = '100px';
-          entityLeftView.setAttribute("geometry", "width", "1");
-          entityRightView.setAttribute("geometry", "width", "1");
-          entityLeftView.setAttribute("material", "src", this.value);
-          entityRightView.setAttribute("material", "src", this.value);
+          imgPreview.src = inputImgUrl.value;
+          imgPreview.addEventListener("load", function () {
+            alert(imgPreview.naturalWidth);
+            imgPreview.style.width = imgPreview.naturalWidth *  / imgPreview.naturalHeight;
+            entityLeftView.setAttribute("geometry", "width", "1");
+            entityRightView.setAttribute("geometry", "width", "1");
+            entityLeftView.setAttribute("material", "src", this.value);
+            entityRightView.setAttribute("material", "src", this.value);
+          });
         });
       },
     });
@@ -68,8 +70,8 @@
         placeholder="Paste URL of SBS stereosocpic 3D image here and press enter."
         style="width: 100%"
       />
-      <br><br>
-       <img id="preview" style="width:200px"> 
+      <br /><br />
+      <img id="preview" style="width: 200px" />
     </div>
   </body>
 </html>
