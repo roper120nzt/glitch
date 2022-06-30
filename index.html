@@ -4,8 +4,14 @@
     <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
     <script src="https://cdn.glitch.global/54432690-cd55-43ec-b376-76a483be1314/aframe-stereo-component.min.js.txt?v=1656621414518"></script>
   </head>
+  <script>
+    AFRAME.registerComponent('sbs-stereoscopic-viewer', {
+      var sceneSbsSV = document.querySelector('a-scene');
+      
+    });
+  </script>
   <body>
-    <a-scene>
+    <a-scene sbs-stereoscopic-viewer>
       <a-entity camera look-controls wasd-controls position="0 1.6 0">
         <a-entity
           geometry="primitive:plane; width:0.7919; height:1"
