@@ -14,35 +14,35 @@
         var entityRightView = cameraMain.querySelector("#rightView");
         var inputImgUrl = document.getElementById("imgUrl");
         var imgPreview = document.getElementById("preview");
-        inputImgUrl.addEventListener("change", function () {
-          imgPreview.src = inputImgUrl.value;
-          imgPreview.addEventListener("load", function () {
-            imgPreview.style.width =
-              (imgPreview.style.height * imgPreview.naturalWidth) /
-              imgPreview.naturalHeight;
-            var viewWidth =
-              (entityLeftView.getAttribute("geometry").height *
-                imgPreview.naturalWidth) /
-              imgPreview.naturalHeight /
-              2.0;
-            entityLeftView.setAttribute("geometry", "width", viewWidth);
-            entityRightView.setAttribute("geometry", "width", viewWidth);
-            entityLeftView.setAttribute("material", "src", inputImgUrl.value);
-            entityRightView.setAttribute("material", "src", inputImgUrl.value);
+        document
+          .getElementById("loadImage")
+          .addEventListener("click", function () {
+            imgPreview.src = inputImgUrl.value;
+            imgPreview.addEventListener("load", function () {
+              imgPreview.style.width =
+                (imgPreview.style.height * imgPreview.naturalWidth) /
+                imgPreview.naturalHeight;
+              var viewWidth =
+                (entityLeftView.getAttribute("geometry").height *
+                  imgPreview.naturalWidth) /
+                imgPreview.naturalHeight /
+                2.0;
+              entityLeftView.setAttribute("geometry", "width", viewWidth);
+              entityRightView.setAttribute("geometry", "width", viewWidth);
+              entityLeftView.setAttribute("material", "src", inputImgUrl.value);
+              entityRightView.setAttribute(
+                "material",
+                "src",
+                inputImgUrl.value
+              );
+            });
           });
-        });
       },
     });
   </script>
   <body>
     <a-scene sbs-stereoscopic-viewer>
-      <a-entity
-        id="mainCamera"
-        camera
-        look-controls
-        wasd-controls
-        position="0 1.6 0"
-      >
+      <a-entity id="mainCamera" camera look-controls position="0 1.6 0">
         <a-entity
           id="leftView"
           geometry="primitive:plane; width:2; height:2"
@@ -71,11 +71,24 @@
     </a-scene>
     <div style="position: fixed; top: 10px; left: 10px; width: 50%">
       <input
-        type="text"
         id="imgUrl"
+        type="text"
         placeholder="Paste URL of SBS stereosocpic 3D image here."
         style="width: 100%"
       />
+      <label for="imgHeight" style="color: white">Image height:</label>
+      <input
+        id="imgHeight"
+        type="number"
+        step="0.1"
+        value="2.0"
+        style="width: 10%"
+      />
+      &nbsp;
+      <label for="followHead" style="color: white">Follow head:</label>
+      <input id="followHead" type="checkbox" checked="true" />
+      <br />
+      <input id="loadImage" type="button" value="LOAD" />
       <br /><br />
       <img id="preview" style="height: 200px" />
     </div>
