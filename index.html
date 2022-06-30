@@ -7,11 +7,11 @@
   <script>
     AFRAME.registerComponent("sbs-stereoscopic-viewer", {
       init: function () {
-        var cameraMain = document
-          .querySelector("a-scene")
-          .querySelector("#mainCamera");
-        var entityLeftView = cameraMain.querySelector("#leftView");
-        var entityRightView = cameraMain.querySelector("#rightView");
+        var sceneMain = document.querySelector("a-scene");
+        var fixedCamera = sceneMain.querySelector("#fixedCamera");
+        var followingCamera = sceneMain.querySelector("#followingCamera");
+        var entityLeftView = followingCamera.querySelector("#leftView");
+        var entityRightView = followingCamera.querySelector("#rightView");
         var inputImgUrl = document.getElementById("imgUrl");
         var imgPreview = document.getElementById("preview");
         document
@@ -27,14 +27,24 @@
                   imgPreview.naturalWidth) /
                 imgPreview.naturalHeight /
                 2.0;
+              var viewHeight = document.getElementById("imgHeight").value;
               entityLeftView.setAttribute("geometry", "width", viewWidth);
               entityRightView.setAttribute("geometry", "width", viewWidth);
+              entityLeftView.setAttribute("geometry", "height", viewHeight);
+              entityRightView.setAttribute("geometry", "height", viewHeight);
               entityLeftView.setAttribute("material", "src", inputImgUrl.value);
               entityRightView.setAttribute(
                 "material",
                 "src",
                 inputImgUrl.value
               );
+              if (document.getElementById("followHead").checked) {
+                followongCamera.setAttribute("active", "false");
+                fixedCamera.setAttribute("active", "true");
+              } else {
+                followongCamera.setAttribute("active", "true");
+                fixedCamera.setAttribute("active", "false");
+              }
             });
           });
       },
@@ -42,7 +52,14 @@
   </script>
   <body>
     <a-scene sbs-stereoscopic-viewer>
-      <a-entity id="mainCamera" camera look-controls position="0 1.6 0">
+      <a-entity
+        id="fixedCamera"
+        camera
+        look-controls
+        position="0 1.6 0"
+        active="false"
+      />
+      <a-entity id="followingCamera" camera look-controls position="0 1.6 0">
         <a-entity
           id="leftView"
           geometry="primitive:plane; width:2; height:2"
@@ -69,7 +86,7 @@
       ></a-plane>
       <a-sky color="#000000"></a-sky>
     </a-scene>
-    <div style="position: fixed; top: 10px; left: 10px; width: 50%">
+    <div style="position: fixed; top: 10px; left: 10px; width: 75%">
       <input
         id="imgUrl"
         type="text"
@@ -79,6 +96,15 @@
       <label for="imgHeight" style="color: white">Image height:</label>
       <input
         id="imgHeight"
+        type="number"
+        step="0.1"
+        value="2.0"
+        style="width: 10%"
+      />
+      &nbsp;
+      <label for="imgDist" style="color: white">Image distance:</label>
+      <input
+        id="imgDist"
         type="number"
         step="0.1"
         value="2.0"
